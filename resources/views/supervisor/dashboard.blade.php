@@ -1,84 +1,70 @@
 @extends('layouts.dashboard')
-@section('title', 'Dashboard Monitoring')
-@section('page-title')
-    Monitoring Produksi Hari Ini ({{ \Carbon\Carbon::parse($today)->format('d M Y') }})
-@endsection
+
+@section('title', 'Supervisor Dashboard')
+@section('page-title', 'Supervisor Dashboard')
 
 @section('content')
-<!-- Ringkasan Global -->
 <div class="row g-4 mb-4">
     <div class="col-md-4">
-        <div class="glass-card text-center p-4 bg-primary text-white h-100 shadow-sm border-0">
-            <h6 class="fw-bold mb-3 opacity-75">Total Target Produksi</h6>
-            <h2 class="display-5 fw-bold mb-0">{{ number_format($totalTargetDay) }}</h2>
-            <span class="small">Pcs</span>
+        <div class="glass-card text-center p-4">
+            <small class="text-muted fw-bold">Today's Records</small>
+            <h2 class="fw-bold mb-0 text-primary">{{ $recordsToday }}</h2>
+            <small>Final: {{ $recordsFinalToday }}</small>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="glass-card text-center p-4 bg-success text-white h-100 shadow-sm border-0">
-            <h6 class="fw-bold mb-3 opacity-75">Aktual Produksi</h6>
-            <h2 class="display-5 fw-bold mb-0">{{ number_format($totalActualDay) }}</h2>
-            <span class="small">Pcs</span>
+        <div class="glass-card text-center p-4">
+            <small class="text-muted fw-bold">Today's QTY</small>
+            <h2 class="fw-bold mb-0 text-success">{{ number_format($todaySummary->total_qty ?? 0) }}</h2>
+            <small>NG: <span class="text-danger">{{ number_format($todaySummary->total_ng ?? 0) }}</span></small>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="glass-card text-center p-4 text-white h-100 shadow-sm border-0 {{ $dayAchievement >= 100 ? 'bg-info' : 'bg-warning text-dark' }}">
-            <h6 class="fw-bold mb-3 {{ $dayAchievement >= 100 ? 'opacity-75' : '' }}">Achievement</h6>
-            <h2 class="display-5 fw-bold mb-0">{{ $dayAchievement }}%</h2>
-            <span class="small">Berdasarkan plan berjalan</span>
+        <div class="glass-card text-center p-4">
+            <small class="text-muted fw-bold">Today's Duration</small>
+            <h2 class="fw-bold mb-0 text-info">{{ $todaySummary->total_duration_min ?? 0 }}</h2>
+            <small>minutes</small>
         </div>
     </div>
 </div>
 
-<!-- Monitoring Per Line -->
-<div class="glass-card p-4">
-    <h5 class="fw-bold mb-4 text-dark border-bottom pb-2"><i class="fas fa-industry text-primary me-2"></i> Status Per Line</h5>
-    <div class="row g-4">
-        @foreach($lineData as $data)
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                <div class="card-header bg-light border-0 py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="fw-bold mb-0 text-dark">{{ $data['name'] }}</h5>
-                    @if($data['running_lots'] > 0)
-                        <span class="badge bg-success pulse-animation"><i class="fas fa-play-circle me-1"></i> {{ $data['running_lots'] }} Lot Running</span>
-                    @else
-                        <span class="badge bg-secondary">Standby</span>
-                    @endif
-                </div>
-                <div class="card-body p-4 bg-white">
-                    <div class="d-flex justify-content-between mb-3 text-muted">
-                        <span>Target: <strong>{{ number_format($data['target']) }}</strong></span>
-                        <span>Actual: <strong>{{ number_format($data['actual']) }}</strong></span>
-                    </div>
-                    
-                    <div class="progress" style="height: 25px; border-radius: 10px;">
-                        @php
-                            $bgClass = 'bg-primary';
-                            if($data['achievement'] >= 100) $bgClass = 'bg-success';
-                            elseif($data['achievement'] < 50 && $data['target'] > 0) $bgClass = 'bg-danger';
-                        @endphp
-                        <div class="progress-bar {{ $bgClass }} progress-bar-striped {{ $data['running_lots'] > 0 ? 'progress-bar-animated' : '' }}" 
-                             role="progressbar" 
-                             style="width: {{ min($data['achievement'], 100) }}%" 
-                             aria-valuenow="{{ $data['achievement'] }}" aria-valuemin="0" aria-valuemax="100">
-                             {{ $data['achievement'] }}%
-                        </div>
-                    </div>
-                </div>
+<div class="row g-4">
+    <div class="col-12">
+        <div class="glass-card">
+            <h5 class="fw-bold border-bottom pb-3 mb-3"><i class="ph ph-clock text-primary me-2"></i> Recent Operational Records</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Process Main</th>
+                            <th>Process 2</th>
+                            <th>Shift</th>
+                            <th>NIK</th>
+                            <th>Created By</th>
+                            <th>Status</th>
+                            <th class="text-end">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($recentRecords as $rec)
+                        <tr>
+                            <td class="fw-bold">{{ \Carbon\Carbon::parse($rec->date)->format('d M Y') }}</td>
+                            <td>{{ $rec->process_main }}</td>
+                            <td><small>{{ $rec->process2_list ?: '-' }}</small></td>
+                            <td>{{ $rec->shift->name ?? '-' }}</td>
+                            <td>{{ $rec->nik_list }}</td>
+                            <td>{{ $rec->createdBy->name ?? '-' }}</td>
+                            <td>{!! $rec->status == 'final' ? '<span class="badge bg-success">Final</span>' : '<span class="badge bg-warning text-dark">Draft</span>' !!}</td>
+                            <td class="text-end">
+                                <a href="{{ route('supervisor.op-record.show', $rec->id) }}" class="btn btn-sm btn-info text-white"><i class="ph ph-eye"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        @endforeach
     </div>
 </div>
-
-<style>
-.pulse-animation {
-    animation: pulse 1.5s infinite;
-}
-@keyframes pulse {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); box-shadow: 0 0 8px rgba(40,167,69,0.5); }
-    100% { opacity: 1; transform: scale(1); }
-}
-</style>
-@endsection
+@endSection

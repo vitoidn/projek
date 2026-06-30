@@ -6,7 +6,7 @@
 <div class="glass-card">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Daftar Shifts</h5>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fas fa-plus"></i> Tambah Shift</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><i class="ph ph-plus"></i> Tambah Shift</button>
     </div>
     @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
     @if($errors->any()) <div class="alert alert-danger">Terjadi kesalahan pada input data. Pastikan format jam HH:MM.</div> @endif
@@ -21,9 +21,9 @@
                     <td>{{ $shift->start_time ?? '-' }}</td>
                     <td>{{ $shift->end_time ?? '-' }}</td>
                     <td class="text-end">
-                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $shift->id }}"><i class="fas fa-edit"></i></button>
-                        <form action="{{ route('admin.shifts.destroy', $shift->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus shift ini?');">
-                            @csrf @method('DELETE') <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $shift->id }}"><i class="ph ph-pencil"></i></button>
+                        <form action="{{ route('admin.shifts.destroy', $shift->id) }}" method="POST" class="d-inline">
+                            @csrf @method('DELETE') <button class="btn btn-sm btn-danger" data-confirm="Yakin ingin menghapus shift ini?" data-confirm-danger><i class="ph ph-trash"></i></button>
                         </form>
                     </td>
                 </tr>

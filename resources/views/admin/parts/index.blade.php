@@ -5,16 +5,16 @@
 
 @section('sidebar')
     <li>
-        <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="{{ route('admin.dashboard') }}"><i class="ph ph-house"></i> Dashboard</a>
     </li>
     <li class="active">
-        <a href="{{ route('admin.parts.index') }}"><i class="fas fa-database"></i> Master Data</a>
+        <a href="{{ route('admin.parts.index') }}"><i class="ph ph-database"></i> Master Data</a>
     </li>
     <li>
-        <a href="#"><i class="fas fa-users"></i> Users & Roles</a>
+        <a href="#"><i class="ph ph-users"></i> Users & Roles</a>
     </li>
     <li>
-        <a href="#"><i class="fas fa-history"></i> Audit Logs</a>
+        <a href="#"><i class="ph ph-clock-counter-clockwise"></i> Audit Logs</a>
     </li>
 @endsection
 
@@ -23,7 +23,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Daftar Parts</h5>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-            <i class="fas fa-plus"></i> Tambah Part
+            <i class="ph ph-plus"></i> Tambah Part
         </button>
     </div>
 
@@ -56,12 +56,12 @@
                     <td>{{ $part->cycle_time_sec }} s</td>
                     <td class="text-end">
                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $part->id }}">
-                            <i class="fas fa-edit"></i>
+                            <i class="ph ph-pencil"></i>
                         </button>
-                        <form action="{{ route('admin.parts.destroy', $part->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus part ini?');">
+                        <form action="{{ route('admin.parts.destroy', $part->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-danger" data-confirm="Yakin ingin menghapus part ini?" data-confirm-danger><i class="ph ph-trash"></i></button>
                         </form>
                     </td>
                 </tr>

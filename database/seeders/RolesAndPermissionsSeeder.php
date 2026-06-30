@@ -7,23 +7,19 @@ use Illuminate\Database\Seeder;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $roleAdmin = \Spatie\Permission\Models\Role::create(['name' => 'admin']);
+        $roleKaryawan = \Spatie\Permission\Models\Role::create(['name' => 'karyawan']);
         $roleSupervisor = \Spatie\Permission\Models\Role::create(['name' => 'supervisor']);
-        $roleOperator = \Spatie\Permission\Models\Role::create(['name' => 'operator']);
 
-        $admin = \App\Models\User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@example.com',
+        $karyawan = \App\Models\User::create([
+            'name' => 'Karyawan Inspeksi',
+            'email' => 'karyawan@example.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
         ]);
-        $admin->assignRole($roleAdmin);
+        $karyawan->assignRole($roleKaryawan);
 
         $supervisor = \App\Models\User::create([
             'name' => 'Spv Produksi',
@@ -31,12 +27,5 @@ class RolesAndPermissionsSeeder extends Seeder
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
         ]);
         $supervisor->assignRole($roleSupervisor);
-
-        $operator = \App\Models\User::create([
-            'name' => 'Operator 1',
-            'email' => 'operator@example.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
-        $operator->assignRole($roleOperator);
     }
 }

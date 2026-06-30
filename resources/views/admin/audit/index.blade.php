@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="glass-card">
-    <h5 class="fw-bold mb-4 text-dark border-bottom pb-2"><i class="fas fa-history text-primary me-2"></i> Sistem Audit Trail</h5>
+    <h5 class="fw-bold mb-4 text-dark border-bottom pb-2"><i class="ph ph-clock-counter-clockwise text-primary me-2"></i> Sistem Audit Trail</h5>
     
     <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -28,7 +28,7 @@
                     <td class="text-muted fst-italic">{{ $log->reason }}</td>
                     <td>
                         <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#detailModal{{ $log->id }}">
-                            <i class="fas fa-eye me-1"></i> Lihat Detail
+                            <i class="ph ph-eye me-1"></i> Lihat Detail
                         </button>
                     </td>
                 </tr>

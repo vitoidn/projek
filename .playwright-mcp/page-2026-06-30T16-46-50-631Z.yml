@@ -1,0 +1,73 @@
+- generic [ref=f2e2]:
+  - navigation [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - generic [ref=f2e5]: 
+      - text: MonBend
+    - list [ref=f2e6]:
+      - listitem [ref=f2e7]:
+        - link " Dashboard" [ref=f2e8] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/dashboard
+          - generic [ref=f2e9]: 
+          - text: Dashboard
+      - listitem [ref=f2e10]:
+        - link " My Records" [ref=f2e11] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/operational-records
+          - generic [ref=f2e12]: 
+          - text: My Records
+      - listitem [ref=f2e13]:
+        - link " New Record" [ref=f2e14] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/operational-records/create
+          - generic [ref=f2e15]: 
+          - text: New Record
+      - separator [ref=f2e16]
+      - listitem [ref=f2e17]: Legacy
+      - listitem [ref=f2e18]:
+        - link " Lot Execution (Old)" [ref=f2e19] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=f2e20]: 
+          - text: Lot Execution (Old)
+  - generic [ref=f2e21]:
+    - generic [ref=f2e22]:
+      - generic [ref=f2e23]:
+        - heading "Operator Dashboard" [level=4] [ref=f2e24]
+        - text: Welcome back, Operator 1
+      - generic [ref=f2e25]:
+        - button " Operator 1" [ref=f2e26] [cursor=pointer]:
+          - generic [ref=f2e27]: 
+          - text: Operator 1
+        - text: 
+    - generic [ref=f2e31]:
+      - generic [ref=f2e32]:
+        - heading " Riwayat Record Saya" [level=5] [ref=f2e33]:
+          - generic [ref=f2e34]: 
+          - text: Riwayat Record Saya
+        - link " Buat Record Baru" [ref=f2e35] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/operational-records/create
+          - generic [ref=f2e36]: 
+          - text: Buat Record Baru
+      - table [ref=f2e38]:
+        - rowgroup [ref=f2e39]:
+          - row "Date Process Shift NIK Status Rows Aksi" [ref=f2e40]:
+            - columnheader "Date" [ref=f2e41]
+            - columnheader "Process" [ref=f2e42]
+            - columnheader "Shift" [ref=f2e43]
+            - columnheader "NIK" [ref=f2e44]
+            - columnheader "Status" [ref=f2e45]
+            - columnheader "Rows" [ref=f2e46]
+            - columnheader "Aksi" [ref=f2e47]
+        - rowgroup [ref=f2e48]:
+          - 'row "30 Jun 2026 Manual Bending Shift 1 MB: 18283 (VITO) | SCJ: 131231 (Daniel) | DRW: 123123 (Kimono) | INSP: 1214434 (Jono) Draft 0  " [ref=f2e49]':
+            - cell "30 Jun 2026" [ref=f2e50]
+            - cell "Manual Bending" [ref=f2e51]
+            - cell "Shift 1" [ref=f2e52]
+            - 'cell "MB: 18283 (VITO) | SCJ: 131231 (Daniel) | DRW: 123123 (Kimono) | INSP: 1214434 (Jono)" [ref=f2e53]'
+            - cell "Draft" [ref=f2e54]:
+              - generic [ref=f2e55]: Draft
+            - cell "0" [ref=f2e56]
+            - cell " " [ref=f2e57]:
+              - link "" [ref=f2e58] [cursor=pointer]:
+                - /url: http://127.0.0.1:8080/operator/operational-records/1
+                - generic [ref=f2e59]: 
+              - link "" [ref=f2e60] [cursor=pointer]:
+                - /url: http://127.0.0.1:8080/operator/operational-records/1/edit
+                - generic [ref=f2e61]: 

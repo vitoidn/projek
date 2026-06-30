@@ -5,79 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Monitoring Bending')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        :root {
-            --primary-bg: #f4f7fe;
-            --sidebar-bg: #111c44;
-            --sidebar-color: #a0aec0;
-            --accent-color: #4318ff;
-        }
-        body { background-color: var(--primary-bg); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .wrapper { display: flex; width: 100%; align-items: stretch; min-height: 100vh; }
-        
-        .sidebar { min-width: 260px; max-width: 260px; background: var(--sidebar-bg); color: var(--sidebar-color); transition: all 0.3s; z-index: 999; }
-        .sidebar .sidebar-header { padding: 30px 20px; text-align: center; font-weight: 700; font-size: 1.5rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .sidebar ul.components { padding: 20px 0; }
-        .sidebar ul li a { padding: 15px 30px; font-size: 1rem; font-weight: 500; display: block; color: var(--sidebar-color); text-decoration: none; transition: 0.2s ease-in-out; }
-        .sidebar ul li a:hover, .sidebar ul li.active > a { color: #fff; background: rgba(255,255,255,0.05); border-right: 4px solid var(--accent-color); }
-        .sidebar ul li a i { margin-right: 12px; width: 20px; text-align: center; font-size: 1.1rem; }
-        
-        .content { width: 100%; padding: 20px 30px; transition: all 0.3s; }
-        .top-navbar { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); padding: 15px 25px; border-radius: 16px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        
-        .glass-card { background: #ffffff; border: none; border-radius: 20px; box-shadow: 0 5px 14px rgba(0,0,0,0.05); padding: 25px; transition: transform 0.2s; }
-        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-        
-        .stat-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .bg-light-primary { background-color: #f4f7fe; color: #4318ff; }
-        .bg-light-success { background-color: #e2fbd7; color: #34b53a; }
-        .bg-light-danger { background-color: #ffe5d3; color: #ff3b30; }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"/>
+    <link href="{{ asset('css/dashboard-modern.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('styles')
 </head>
 <body>
     <div class="wrapper">
         <nav class="sidebar">
             <div class="sidebar-header">
-                <i class="fas fa-layer-group text-primary"></i> MonBend
+                <i class="ph ph-stack text-primary"></i> MonBend
             </div>
             <ul class="list-unstyled components">
                 @if(auth()->check())
-                    @if(auth()->user()->hasRole('admin'))
-                        <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                            <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
+                    @if(auth()->user()->hasRole('supervisor'))
+                        <li class="{{ request()->routeIs('admin.dashboard') || request()->routeIs('supervisor.dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('admin.dashboard') }}"><i class="ph ph-chart-line"></i> Monitoring</a>
+                        </li>
+                        <li class="{{ request()->routeIs('supervisor.planning.*') || request()->routeIs('admin.planning.*') ? 'active' : '' }}">
+                            <a href="{{ route('supervisor.planning.index') }}"><i class="ph ph-list-checks"></i> Production Planning</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.op-record.*') || request()->routeIs('supervisor.op-record.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.op-record.index') }}"><i class="ph ph-clipboard-text"></i> Operational Records</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.horenzo.*') || request()->routeIs('supervisor.horenzo.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.horenzo.index') }}"><i class="ph ph-file-text"></i> Horenzo Reports</a>
                         </li>
                         <li>
-                            <a href="#masterSubmenu" data-bs-toggle="collapse" class="dropdown-toggle"><i class="fas fa-database"></i> Master Data</a>
-                            <ul class="collapse list-unstyled {{ request()->routeIs('admin.*') && !request()->routeIs('admin.dashboard') ? 'show' : '' }}" id="masterSubmenu">
-                                <li><a href="{{ route('admin.parts.index') }}" class="ms-3"><i class="fas fa-cog"></i> Parts</a></li>
-                                <li><a href="{{ route('admin.lines.index') }}" class="ms-3"><i class="fas fa-bars"></i> Lines</a></li>
-                                <li><a href="{{ route('admin.shifts.index') }}" class="ms-3"><i class="fas fa-clock"></i> Shifts</a></li>
-                                <li><a href="{{ route('admin.defects.index') }}"><i class="fas fa-exclamation-triangle"></i> Data Defect</a></li>
-                                <li><a href="{{ route('admin.downtimes.index') }}"><i class="fas fa-stopwatch"></i> Data Downtime</a></li>
+                            <a href="#masterSubmenu" data-bs-toggle="collapse" class="dropdown-toggle"><i class="ph ph-database"></i> Master Data</a>
+                            <ul class="collapse list-unstyled {{ request()->routeIs('admin.master.*') || request()->routeIs('admin.parts.*') || request()->routeIs('admin.lines.*') || request()->routeIs('admin.shifts.*') || request()->routeIs('admin.defects.*') || request()->routeIs('admin.downtimes.*') ? 'show' : '' }}" id="masterSubmenu">
+                                <li><a href="{{ route('admin.master.lot-numbers.index') }}"><i class="ph ph-hash"></i> Lot Numbers</a></li>
+                                <li><a href="{{ route('admin.master.activity-codes.index') }}"><i class="ph ph-code"></i> Activity Codes</a></li>
+                                <li><a href="{{ route('admin.master.part-codes.index') }}"><i class="ph ph-gear-six"></i> Part Codes</a></li>
+                                <li><a href="{{ route('admin.master.shifts.index') }}"><i class="ph ph-clock"></i> Shifts</a></li>
+                                <li><a href="{{ route('admin.master.users.index') }}"><i class="ph ph-users"></i> Users</a></li>
+                                <hr class="my-1">
+                                <li><a href="{{ route('admin.parts.index') }}"><i class="ph ph-package"></i> Parts (Legacy)</a></li>
+                                <li><a href="{{ route('admin.lines.index') }}"><i class="ph ph-list"></i> Lines</a></li>
+                                <li><a href="{{ route('admin.defects.index') }}"><i class="ph ph-warning"></i> Data Defect</a></li>
+                                <li><a href="{{ route('admin.downtimes.index') }}"><i class="ph ph-stopwatch"></i> Data Downtime</a></li>
                             </ul>
-                            
-                            <h6 class="sidebar-heading px-3 mt-4 mb-2 text-muted text-uppercase fw-bold" style="font-size: 0.75rem;">Sistem</h6>
-                            <li class="{{ request()->routeIs('admin.audit.index') ? 'active' : '' }}">
-                                <a href="{{ route('admin.audit.index') }}"><i class="fas fa-history"></i> Audit Trail</a>
-                            </li>
                         </li>
-                    @elseif(auth()->user()->hasRole('supervisor'))
-                        <li class="{{ request()->routeIs('supervisor.dashboard') ? 'active' : '' }}">
-                            <a href="{{ route('supervisor.dashboard') }}"><i class="fas fa-chart-line"></i> Monitoring</a>
+                        <h6 class="sidebar-heading px-3 mt-4 mb-2 text-muted text-uppercase fw-bold" style="font-size: 0.75rem;">Sistem</h6>
+                        <li class="{{ request()->routeIs('admin.audit.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.audit.index') }}"><i class="ph ph-clock-counter-clockwise"></i> Audit Trail</a>
                         </li>
-                        <li class="{{ request()->routeIs('supervisor.planning.*') ? 'active' : '' }}">
-                            <a href="{{ route('supervisor.planning.index') }}"><i class="fas fa-tasks"></i> Production Planning</a>
-                        </li>
-                        <li><a href="#"><i class="fas fa-file-alt"></i> Horenzo Reports</a></li>
-                    @elseif(auth()->user()->hasRole('operator'))
+                    @elseif(auth()->user()->hasRole('karyawan'))
                         <li class="{{ request()->routeIs('operator.dashboard') ? 'active' : '' }}">
-                            <a href="{{ route('operator.dashboard') }}"><i class="fas fa-clipboard-list"></i> O/R Header</a>
+                            <a href="{{ route('operator.dashboard') }}"><i class="ph ph-house"></i> Dashboard</a>
                         </li>
-                        <li><a href="#"><i class="fas fa-play-circle"></i> Eksekusi Lot</a></li>
-                        <li><a href="#"><i class="fas fa-history"></i> Riwayat Hari Ini</a></li>
+                        <li class="{{ request()->routeIs('operator.op-record.*') ? 'active' : '' }}">
+                            <a href="{{ route('operator.op-record.index') }}"><i class="ph ph-clipboard-text"></i> My Records</a>
+                        </li>
+                        <li class="{{ request()->routeIs('operator.op-record.create') ? 'active' : '' }}">
+                            <a href="{{ route('operator.op-record.create') }}"><i class="ph ph-plus-circle"></i> New Record</a>
+                        </li>
+                        <li class="{{ request()->routeIs('operator.horenzo.*') ? 'active' : '' }}">
+                            <a href="{{ route('operator.horenzo.index') }}"><i class="ph ph-file-text"></i> Horenzo Reports</a>
+                        </li>
+                        <li class="{{ request()->routeIs('operator.report-record.*') ? 'active' : '' }}">
+                            <a href="{{ route('operator.report-record.index') }}"><i class="ph ph-export"></i> Report All Record</a>
+                        </li>
+                        <hr class="my-1">
+                        <li class="small text-muted px-3">Legacy</li>
+                        <li class="{{ request()->routeIs('operator.lot.*') || request()->routeIs('operator.record.*') || request()->routeIs('operator.api.*') ? 'active' : '' }}">
+                            <a href="#"><i class="ph ph-play-circle"></i> Lot Execution (Old)</a>
+                        </li>
                     @endif
                 @endif
             </ul>
@@ -91,13 +85,13 @@
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-white rounded-pill px-3 shadow-sm fw-bold text-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle text-primary fs-5 align-middle me-1"></i> {{ Auth::user()->name ?? 'User' }}
+                        <i class="ph ph-user-circle text-primary fs-5 align-middle me-1"></i> {{ Auth::user()->name ?? 'User' }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius: 12px;">
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="dropdown-item text-danger fw-500 py-2"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+                                <button type="submit" class="dropdown-item text-danger fw-500 py-2"><i class="ph ph-sign-out me-2"></i> Logout</button>
                             </form>
                         </li>
                     </ul>
@@ -110,8 +104,84 @@
         </div>
     </div>
 
+    <div class="modal fade" id="confirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:400px">
+            <div class="modal-content border-0 shadow-lg" style="border-radius:12px;">
+                <div class="modal-body text-center p-4">
+                    <div id="confirmModalIcon" class="mb-3" style="font-size:2.5rem;line-height:1;"></div>
+                    <h6 id="confirmModalTitle" class="fw-bold mb-2"></h6>
+                    <p id="confirmModalMessage" class="text-muted small mb-0"></p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4 pt-0 gap-2">
+                    <button type="button" class="btn btn-light fw-bold px-4" id="confirmModalCancel" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn fw-bold px-4" id="confirmModalOk">Ya, Lanjutkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let confirmResolve = null;
+
+        $('#confirmModal').on('hidden.bs.modal', function () {
+            if (confirmResolve) { confirmResolve(false); confirmResolve = null; }
+        });
+
+        $('#confirmModalOk').on('click', function () {
+            if (confirmResolve) { confirmResolve(true); confirmResolve = null; }
+            $('#confirmModal').modal('hide');
+        });
+
+        $('#confirmModalCancel').on('click', function () {
+            if (confirmResolve) { confirmResolve(false); confirmResolve = null; }
+        });
+
+        function showConfirm(options) {
+            const modal = $('#confirmModal');
+            const icon = options.icon || 'warning';
+            const iconColor = options.danger ? '#dc2626' : '#f59e0b';
+            const iconMap = {
+                warning: '<i class="ph ph-warning-circle" style="color:' + iconColor + '"></i>',
+                trash: '<i class="ph ph-trash" style="color:#dc2626"></i>',
+                check: '<i class="ph ph-check-circle" style="color:#16a34a"></i>',
+                info: '<i class="ph ph-info" style="color:#3b82f6"></i>',
+            };
+
+            $('#confirmModalIcon').html(iconMap[icon] || iconMap.warning);
+            $('#confirmModalTitle').text(options.title || 'Konfirmasi');
+            $('#confirmModalMessage').text(options.message || '');
+
+            const $okBtn = $('#confirmModalOk');
+            $okBtn.text(options.confirmText || 'Ya, Lanjutkan');
+            $okBtn.removeClass('btn-danger btn-primary btn-success');
+            $okBtn.addClass(options.danger ? 'btn-danger' : 'btn-primary');
+
+            return new Promise(function (resolve) {
+                confirmResolve = resolve;
+                modal.modal('show');
+            });
+        }
+
+        $(document).on('click', '[data-confirm]', function (e) {
+            e.preventDefault();
+            const $btn = $(this);
+            const message = $btn.data('confirm');
+            const danger = $btn.data('confirm-danger') !== undefined;
+            const $form = $btn.closest('form');
+
+            showConfirm({
+                title: 'Konfirmasi',
+                message: message,
+                confirmText: $btn.data('confirm-yes') || 'Ya, Lanjutkan',
+                danger: danger,
+                icon: danger ? 'trash' : 'warning',
+            }).then(function (ok) {
+                if (ok) $form.trigger('submit');
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

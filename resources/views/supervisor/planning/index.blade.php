@@ -6,7 +6,7 @@
 <div class="glass-card">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Production Planning</h5>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fas fa-plus"></i> Buat Planning</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><i class="ph ph-plus"></i> Buat Planning</button>
     </div>
     @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
     @if($errors->any()) <div class="alert alert-danger">Terjadi kesalahan pada input data.</div> @endif
@@ -35,9 +35,9 @@
                     <td class="fw-bold text-primary">{{ number_format($planning->target_qty) }} pcs</td>
                     <td class="fw-bold text-success">{{ $planning->jumlah_lot }} Lot</td>
                     <td class="text-end">
-                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $planning->id }}"><i class="fas fa-edit"></i></button>
-                        <form action="{{ route('supervisor.planning.destroy', $planning->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus planning ini?');">
-                            @csrf @method('DELETE') <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $planning->id }}"><i class="ph ph-pencil"></i></button>
+                        <form action="{{ route('supervisor.planning.destroy', $planning->id) }}" method="POST" class="d-inline">
+                            @csrf @method('DELETE') <button class="btn btn-sm btn-danger" data-confirm="Yakin hapus planning ini?" data-confirm-danger><i class="ph ph-trash"></i></button>
                         </form>
                     </td>
                 </tr>
@@ -123,7 +123,7 @@
                         </select>
                     </div>
                     <div class="mb-3"><label class="form-label text-muted fw-bold">Target Qty (pcs)</label><input type="number" name="target_qty" class="form-control" required min="1"></div>
-                    <div class="alert alert-info py-2 mb-0"><small><i class="fas fa-info-circle"></i> Sistem akan otomatis menghitung Target Lot berdasarkan (Target Qty / Qty per Lot part).</small></div>
+                    <div class="alert alert-info py-2 mb-0"><small><i class="ph ph-info"></i> Sistem akan otomatis menghitung Target Lot berdasarkan (Target Qty / Qty per Lot part).</small></div>
                 </div>
                 <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary">Simpan</button></div>
             </form>

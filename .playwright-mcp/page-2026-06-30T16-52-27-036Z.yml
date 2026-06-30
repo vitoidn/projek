@@ -1,0 +1,18 @@
+- generic [ref=f5e2]:
+  - link [ref=f5e4] [cursor=pointer]:
+    - /url: /
+    - img [ref=f5e5]
+  - generic [ref=f5e8]:
+    - generic [ref=f5e9]:
+      - generic [ref=f5e10]: Email
+      - textbox "Email" [active] [ref=f5e11]
+    - generic [ref=f5e12]:
+      - generic [ref=f5e13]: Password
+      - textbox "Password" [ref=f5e14]
+    - generic [ref=f5e16]:
+      - checkbox "Remember me" [ref=f5e17]
+      - generic [ref=f5e18]: Remember me
+    - generic [ref=f5e19]:
+      - link "Forgot your password?" [ref=f5e20] [cursor=pointer]:
+        - /url: http://127.0.0.1:8080/forgot-password
+      - button "Log in" [ref=f5e21] [cursor=pointer]

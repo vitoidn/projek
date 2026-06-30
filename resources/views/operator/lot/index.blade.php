@@ -9,7 +9,7 @@
     <!-- Form Tambah Lot -->
     <div class="col-12 col-lg-4">
         <div class="glass-card h-100">
-            <h5 class="fw-bold mb-4"><i class="fas fa-plus-circle text-primary me-2"></i> Tambah Lot Baru</h5>
+            <h5 class="fw-bold mb-4"><i class="ph ph-plus-circle text-primary me-2"></i> Tambah Lot Baru</h5>
             <form action="{{ route('operator.lot.store', $record->id) }}" method="POST">
                 @csrf
                 <div class="mb-3">
@@ -25,7 +25,7 @@
                     <label class="form-label text-muted fw-bold">Nomor Lot</label>
                     <input type="text" name="lot_number" class="form-control" placeholder="Contoh: LOT-001" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fw-bold py-2"><i class="fas fa-play me-2"></i> Buat & Buka Lot</button>
+                <button type="submit" class="btn btn-primary w-100 fw-bold py-2"><i class="ph ph-play me-2"></i> Buat & Buka Lot</button>
             </form>
         </div>
     </div>
@@ -33,7 +33,7 @@
     <!-- Riwayat Lot -->
     <div class="col-12 col-lg-8">
         <div class="glass-card h-100">
-            <h5 class="fw-bold mb-4"><i class="fas fa-history text-primary me-2"></i> Riwayat Lot Hari Ini</h5>
+            <h5 class="fw-bold mb-4"><i class="ph ph-clock-counter-clockwise text-primary me-2"></i> Riwayat Lot Hari Ini</h5>
             <div class="table-responsive">
                 <table class="table align-middle">
                     <thead class="table-light">
@@ -66,7 +66,7 @@
                             <td class="text-danger fw-bold">{{ $lot->qty_ng }}</td>
                             <td class="text-end">
                                 <a href="{{ route('operator.lot.execute', ['or_id' => $record->id, 'id' => $lot->id]) }}" class="btn btn-sm btn-info text-white">
-                                    Buka <i class="fas fa-arrow-right ms-1"></i>
+                                    Buka <i class="ph ph-arrow-right ms-1"></i>
                                 </a>
                             </td>
                         </tr>

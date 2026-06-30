@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'Eksekusi Lot')
 @section('page-title')
-    <a href="{{ route('operator.lot.index', $record->id) }}" class="btn btn-sm btn-light me-2"><i class="fas fa-arrow-left"></i></a> 
+    <a href="{{ route('operator.lot.index', $record->id) }}" class="btn btn-sm btn-light me-2"><i class="ph ph-arrow-left"></i></a> 
     Lot: {{ $lot->lot_number }} (Part: {{ $lot->part->part_code }})
 @endsection
 

@@ -3,59 +3,38 @@
 namespace App\Http\Controllers\Supervisor;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\MasterLine;
-use App\Models\ProductionPlanning;
-use App\Models\OperationalRecord;
+use App\Models\OpRecordHeader;
+use App\Models\OpRecordBody;
+use App\Models\MasterShift;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $today = Carbon::today()->format('Y-m-d');
-        
-        $lines = MasterLine::all();
-        $lineData = [];
-        
-        $totalTargetDay = ProductionPlanning::where('date', $today)->sum('target_qty');
-        $totalActualDay = 0;
-        
-        foreach ($lines as $line) {
-            $target = ProductionPlanning::where('date', $today)->where('line_id', $line->id)->sum('target_qty');
-            
-            $records = OperationalRecord::with('details')
-                ->where('date', $today)
-                ->where('line_id', $line->id)
-                ->get();
-                
-            $actual = 0;
-            $runningLots = 0;
-            
-            foreach ($records as $r) {
-                foreach ($r->details as $d) {
-                    if ($d->status == 'Finished') {
-                        $actual += $d->qty_production;
-                    } elseif ($d->status == 'Running') {
-                        $runningLots++;
-                    }
-                }
-            }
-            
-            $totalActualDay += $actual;
-            $achievment = $target > 0 ? round(($actual / $target) * 100, 1) : 0;
-            
-            $lineData[] = [
-                'name' => $line->name,
-                'target' => $target,
-                'actual' => $actual,
-                'achievement' => $achievment,
-                'running_lots' => $runningLots
-            ];
-        }
-        
-        $dayAchievement = $totalTargetDay > 0 ? round(($totalActualDay / $totalTargetDay) * 100, 1) : 0;
 
-        return view('supervisor.dashboard', compact('lineData', 'totalTargetDay', 'totalActualDay', 'dayAchievement', 'today'));
+        $recordsToday = OpRecordHeader::where('date', $today)->count();
+        $recordsFinalToday = OpRecordHeader::where('date', $today)->where('status', 'final')->count();
+
+        $todaySummary = OpRecordBody::query()
+            ->join('op_record_headers', 'op_record_bodies.header_id', '=', 'op_record_headers.id')
+            ->where('op_record_headers.date', $today)
+            ->select([
+                DB::raw('SUM(op_record_bodies.qty) as total_qty'),
+                DB::raw('SUM(op_record_bodies.ng) as total_ng'),
+                DB::raw('SUM(op_record_bodies.duration_min) as total_duration_min'),
+            ])
+            ->first();
+
+        $recentRecords = OpRecordHeader::with(['shift', 'createdBy'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('supervisor.dashboard', compact(
+            'recordsToday', 'recordsFinalToday', 'todaySummary', 'recentRecords', 'today'
+        ));
     }
 }

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             DummyMasterDataSeeder::class,
+            ActivityCodeSeeder::class,
+            LotNumberSeeder::class,
         ]);
     }
 }

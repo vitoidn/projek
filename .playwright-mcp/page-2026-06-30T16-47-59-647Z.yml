@@ -1,0 +1,89 @@
+- generic [ref=f3e2]:
+  - navigation [ref=f3e3]:
+    - generic [ref=f3e4]:
+      - generic [ref=f3e5]: 
+      - text: MonBend
+    - list [ref=f3e6]:
+      - listitem [ref=f3e7]:
+        - link " Dashboard" [ref=f3e8] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/dashboard
+          - generic [ref=f3e9]: 
+          - text: Dashboard
+      - listitem [ref=f3e10]:
+        - link " My Records" [ref=f3e11] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/operational-records
+          - generic [ref=f3e12]: 
+          - text: My Records
+      - listitem [ref=f3e13]:
+        - link " New Record" [ref=f3e14] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/operator/operational-records/create
+          - generic [ref=f3e15]: 
+          - text: New Record
+      - separator [ref=f3e16]
+      - listitem [ref=f3e17]: Legacy
+      - listitem [ref=f3e18]:
+        - link " Lot Execution (Old)" [ref=f3e19] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=f3e20]: 
+          - text: Lot Execution (Old)
+  - generic [ref=f3e21]:
+    - generic [ref=f3e22]:
+      - generic [ref=f3e23]:
+        - heading "Buat Operational Record Baru" [level=4] [ref=f3e24]
+        - text: Welcome back, Operator 1
+      - generic [ref=f3e25]:
+        - button " Operator 1" [ref=f3e26] [cursor=pointer]:
+          - generic [ref=f3e27]: 
+          - text: Operator 1
+        - text: 
+    - generic [ref=f3e31]:
+      - generic [ref=f3e32]:
+        - heading " Header Operational Record" [level=5] [ref=f3e33]:
+          - generic [ref=f3e34]: 
+          - text: Header Operational Record
+        - paragraph [ref=f3e35]: Isi informasi header, lalu tambahkan detail aktivitas (Body) di halaman berikutnya.
+      - generic [ref=f3e37]:
+        - generic [ref=f3e38]:
+          - generic [ref=f3e39]: Date *
+          - textbox [ref=f3e40]: 2026-06-30
+        - generic [ref=f3e41]:
+          - generic [ref=f3e42]: Shift *
+          - combobox [ref=f3e43]:
+            - option "-- Pilih Shift --" [selected]
+            - option "Shift 1 (07:00:00 - 15:00:00)"
+            - option "Shift 2 (15:00:00 - 23:00:00)"
+            - option "Shift 3 (23:00:00 - 07:00:00)"
+        - generic [ref=f3e44]:
+          - generic [ref=f3e45]: Process (pilih salah satu) *
+          - generic [ref=f3e46]:
+            - generic [ref=f3e48]:
+              - generic [ref=f3e49]:
+                - radio "Manual Bending" [checked] [ref=f3e50]
+                - generic [ref=f3e51]: Manual Bending
+              - generic [ref=f3e83]:
+                - textbox "NIK" [ref=f3e85]: "18283"
+                - textbox "Nama" [active] [ref=f3e87]: VITO
+            - generic [ref=f3e54]:
+              - radio "Auto Bending" [ref=f3e55]
+              - generic [ref=f3e56]: Auto Bending
+        - generic [ref=f3e57]:
+          - generic [ref=f3e58]: Process 2 (bisa pilih >1)
+          - generic [ref=f3e59]:
+            - generic [ref=f3e62]:
+              - checkbox "Shape Check Jig" [ref=f3e63]
+              - generic [ref=f3e64]: Shape Check Jig
+            - generic [ref=f3e67]:
+              - checkbox "Drawing" [ref=f3e68]
+              - generic [ref=f3e69]: Drawing
+            - generic [ref=f3e72]:
+              - checkbox "Inspection" [ref=f3e73]
+              - generic [ref=f3e74]: Inspection
+        - generic [ref=f3e75]:
+          - generic [ref=f3e76]: Digital Signature (Prepare)
+          - 'textbox "Optional: Tanda tangan digital" [ref=f3e77]'
+        - generic [ref=f3e78]:
+          - link "Batal" [ref=f3e79] [cursor=pointer]:
+            - /url: http://127.0.0.1:8080/operator/operational-records
+          - button " Simpan Header & Lanjut" [ref=f3e80] [cursor=pointer]:
+            - generic [ref=f3e81]: 
+            - text: Simpan Header & Lanjut
