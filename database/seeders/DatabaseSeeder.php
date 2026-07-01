@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             DummyMasterDataSeeder::class,
             ActivityCodeSeeder::class,
             LotNumberSeeder::class,
+            TesterDataSeeder::class,
         ]);
     }
 }

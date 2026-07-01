@@ -1,0 +1,31 @@
+- generic [ref=f6e2]:
+  - generic [ref=f6e3]:
+    - generic [ref=f6e4]:
+      - img "PT USUI" [ref=f6e5]
+      - text: PT USUI
+    - generic [ref=f6e6]:
+      - heading "Production Operational Record" [level=1] [ref=f6e7]
+      - paragraph [ref=f6e8]: Digitalisasi pencatatan produksi dan auto-generate laporan Horenzo untuk mendukung efisiensi operasional.
+    - generic [ref=f6e9]: © 2026 PT USUI. All rights reserved.
+  - generic [ref=f6e12]:
+    - generic [ref=f6e13]:
+      - img "PT USUI" [ref=f6e14]
+      - heading "Selamat Datang" [level=2] [ref=f6e15]
+      - paragraph [ref=f6e16]: Masuk ke sistem operational record
+    - generic [ref=f6e17]:
+      - generic [ref=f6e18]:
+        - text: Email
+        - textbox "Email" [active] [ref=f6e19]:
+          - /placeholder: Masukkan email
+      - generic [ref=f6e20]:
+        - text: Password
+        - textbox "Password" [ref=f6e21]:
+          - /placeholder: Masukkan password
+      - generic [ref=f6e22]:
+        - generic [ref=f6e23]:
+          - checkbox "Ingat saya" [ref=f6e24]
+          - text: Ingat saya
+        - link "Lupa password?" [ref=f6e25] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/forgot-password
+      - button "Masuk" [ref=f6e26]
+    - paragraph [ref=f6e27]: © 2026 PT USUI. All rights reserved.

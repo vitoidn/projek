@@ -11,21 +11,19 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $roleKaryawan = \Spatie\Permission\Models\Role::create(['name' => 'karyawan']);
-        $roleSupervisor = \Spatie\Permission\Models\Role::create(['name' => 'supervisor']);
+        $roleKaryawan = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'karyawan', 'guard_name' => 'web']);
+        $roleSupervisor = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'supervisor', 'guard_name' => 'web']);
 
-        $karyawan = \App\Models\User::create([
-            'name' => 'Karyawan Inspeksi',
-            'email' => 'karyawan@example.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
-        $karyawan->assignRole($roleKaryawan);
+        $karyawan = \App\Models\User::firstOrCreate(
+            ['email' => 'karyawan@example.com'],
+            ['name' => 'Karyawan Inspeksi', 'password' => \Illuminate\Support\Facades\Hash::make('password')]
+        );
+        if (!$karyawan->hasRole('karyawan')) $karyawan->assignRole($roleKaryawan);
 
-        $supervisor = \App\Models\User::create([
-            'name' => 'Spv Produksi',
-            'email' => 'spv@example.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        ]);
-        $supervisor->assignRole($roleSupervisor);
+        $supervisor = \App\Models\User::firstOrCreate(
+            ['email' => 'spv@example.com'],
+            ['name' => 'Spv Produksi', 'password' => \Illuminate\Support\Facades\Hash::make('password')]
+        );
+        if (!$supervisor->hasRole('supervisor')) $supervisor->assignRole($roleSupervisor);
     }
 }

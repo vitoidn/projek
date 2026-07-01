@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Operator;
 
 use App\Http\Controllers\Controller;
+use App\Models\OpRecordHeader;
 use App\Models\OpRecordBody;
 use App\Models\MasterShift;
 use App\Models\MActivityCode;
@@ -108,11 +109,41 @@ class HorenzoController extends Controller
             ->orderBy('total_qty', 'desc')
             ->get();
 
+        $matchingHeaderIds = (clone $query)->select('op_record_headers.id')->distinct()->get()->pluck('id');
+        $matchingHeaders = OpRecordHeader::whereIn('id', $matchingHeaderIds)
+            ->get(['process_main', 'process_2', 'niks']);
+
+        $process2List = [];
+        foreach ($matchingHeaders as $h) {
+            $p2 = is_array($h->process_2) ? $h->process_2 : [];
+            foreach ($p2 as $v) {
+                $v = trim($v);
+                if (!empty($v) && !in_array($v, $process2List)) $process2List[] = $v;
+            }
+        }
+
+        $nikSummary = [];
+        foreach ($matchingHeaders as $h) {
+            $niks = is_string($h->niks) ? json_decode($h->niks, true) : ($h->niks ?? []);
+            if (is_array($niks)) {
+                foreach ($niks as $key => $val) {
+                    if ($val && !empty($val['nik'])) {
+                        $groupKey = $h->process_main . '|' . $key;
+                        if (!isset($nikSummary[$groupKey])) $nikSummary[$groupKey] = [];
+                        $entry = $val['nik'] . (!empty($val['name']) ? ' (' . $val['name'] . ')' : '');
+                        if (!in_array($entry, $nikSummary[$groupKey])) $nikSummary[$groupKey][] = $entry;
+                    }
+                }
+            }
+        }
+
         return (object) [
             'snapshot_data' => [
                 'summary' => $summary,
                 'per_code' => $perCode,
                 'per_part' => $perPart,
+                'process_2' => $process2List,
+                'nik_per_process' => $nikSummary,
             ],
         ];
     }

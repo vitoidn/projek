@@ -45,6 +45,7 @@ class OpRecordHeader extends Model
         if (!is_array($this->niks)) return $this->niks;
         $parts = [];
         $labels = [
+            'bending' => 'BND',
             'shape_check_jig' => 'SCJ',
             'drawing_inspection' => 'D&I',
             'drawing' => 'DRW',

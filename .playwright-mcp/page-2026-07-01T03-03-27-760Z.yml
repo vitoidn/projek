@@ -1,0 +1,22 @@
+- generic [ref=f1e3]:
+  - generic [ref=f1e4]:
+    - img "PT USUI" [ref=f1e5]
+    - heading "Selamat Datang" [level=2] [ref=f1e6]
+    - paragraph [ref=f1e7]: Masuk ke sistem operational record
+  - generic [ref=f1e8]:
+    - generic [ref=f1e9]:
+      - text: Email
+      - textbox "Email" [active] [ref=f1e10]:
+        - /placeholder: Masukkan email
+    - generic [ref=f1e11]:
+      - text: Password
+      - textbox "Password" [ref=f1e12]:
+        - /placeholder: Masukkan password
+    - generic [ref=f1e13]:
+      - generic [ref=f1e14]:
+        - checkbox "Ingat saya" [ref=f1e15]
+        - text: Ingat saya
+      - link "Lupa password?" [ref=f1e16] [cursor=pointer]:
+        - /url: http://127.0.0.1:8080/forgot-password
+    - button "Masuk" [ref=f1e17]
+  - paragraph [ref=f1e18]: © 2026 PT USUI. All rights reserved.
