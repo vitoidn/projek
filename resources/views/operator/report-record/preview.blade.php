@@ -78,6 +78,8 @@
     @if(is_array($record->niks) && count(array_filter($record->niks)))
     @php
         $roleLabels = [
+            'manual_bending' => 'Manual Bending',
+            'auto_bending' => 'Auto Bending',
             'bending' => 'Bending',
             'shape_check_jig' => 'Shape Check Jig',
             'drawing_inspection' => 'Drawing & Inspection',

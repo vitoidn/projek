@@ -142,8 +142,8 @@ class OperationalRecordController extends Controller
     private function buildNiks(Request $request): array
     {
         $keys = [
-            'shape_check_jig', 'drawing_inspection',
-            'drawing', 'inspection',
+            'manual_bending', 'auto_bending',
+            'shape_check_jig', 'drawing', 'inspection',
         ];
 
         $niks = [];

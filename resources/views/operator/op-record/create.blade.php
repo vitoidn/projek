@@ -38,7 +38,7 @@
                     <div class="col-12">
                         <label class="form-label text-muted fw-bold">Process (pilih salah satu) <span class="text-danger">*</span></label>
                         <div class="row g-2">
-                            @foreach(['Shape Check Jig' => 'shape_check_jig', 'Drawing & Inspection' => 'drawing_inspection'] as $label => $key)
+                            @foreach(['Manual Bending' => 'manual_bending', 'Auto Bending' => 'auto_bending'] as $label => $key)
                             <div class="col-md-6">
                                 <div class="border rounded p-3 h-100 process-card" data-process="{{ $key }}">
                                     <div class="form-check mb-2">

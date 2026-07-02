@@ -145,6 +145,8 @@
                 @if(!empty($data['nik_per_process']))
                 @php
                     $roleLabels = [
+                        'manual_bending' => 'Manual Bending',
+                        'auto_bending' => 'Auto Bending',
                         'bending' => 'Bending',
                         'shape_check_jig' => 'Shape Check Jig',
                         'drawing_inspection' => 'Drawing & Inspection',

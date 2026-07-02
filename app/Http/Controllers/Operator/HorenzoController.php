@@ -17,7 +17,7 @@ class HorenzoController extends Controller
     public function index(Request $request)
     {
         $shifts = MasterShift::all();
-        $processMains = ['Shape Check Jig', 'Drawing & Inspection'];
+        $processMains = ['Manual Bending', 'Auto Bending'];
         $activityCodes = MActivityCode::all();
         $lotNumbers = MLotNumber::where('is_active', true)->get();
         $partCodes = MPartCode::all();
